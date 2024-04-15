@@ -1,76 +1,66 @@
-#include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-void merge(int arr[], int p, int q, int r) {
+void merge(vector<int> &arr, int low, int mid, int high) {
+    vector<int> temp; // temporary array
+    int left = low;      // starting index of left half of arr
+    int right = mid + 1;   // starting index of right half of arr
 
-    // Create L ← A[p..q] and M ← A[q+1..r]
-    int n1 = q - p + 1;
-    int n2 = r - q;
+    //storing elements in the temporary array in a sorted manner//
 
-    int L[n1], M[n2];
-
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[p + i];
-    for (int j = 0; j < n2; j++)
-        M[j] = arr[q + 1 + j];
-
-    // Maintain current index of sub-arrays and main array
-    int i, j, k;
-    i = 0;
-    j = 0;
-    k = p;
-
-    // Until we reach either end of either L or M, pick larger among
-    // elements L and M and place them in the correct position at A[p..r]
-    while (i < n1 && j < n2) {
-        if (L[i] <= M[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = M[j];
-            j++;
+    while (left <= mid && right <= high) {
+        if (arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
         }
-        k++;
+        else {
+            temp.push_back(arr[right]);
+            right++;
+        }
     }
 
-    // When we run out of elements in either L or M,
-    // pick up the remaining elements and put in A[p..r]
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
+    // if elements on the left half are still left //
+
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
     }
 
-    while (j < n2) {
-        arr[k] = M[j];
-        j++;
-        k++;
+    //  if elements on the right half are still left //
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+
+    // transfering all elements from temporary to arr //
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
     }
 }
 
-void mergeSort(int arr[],int p,int r){
-    if(p>r){
-        return ;
+void mergeSort(vector<int> &arr, int low, int high) {
+    if (low >= high) return;
+    int mid = (low + high) / 2 ;
+    mergeSort(arr, low, mid);  // left half
+    mergeSort(arr, mid + 1, high); // right half
+    merge(arr, low, mid, high);  // merging sorted halves
+}
+
+int main() {
+
+    vector<int> arr = {9, 4, 7, 6, 3, 1, 5}  ;
+    int n = 7;
+
+    cout << "Before Sorting Array: " << endl;
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " "  ;
     }
-    int q=(p+r)/2;
-    mergeSort(arr,p,q);
-    mergeSort(arr,q+1,r);
-    mergeSort(arr,p,q);
-     merge(arr, p, q, r);
-}
-
-int main(){
-
-int arr[8]={2,5,4,9,1,6,0,7};
-int n=8;
-int p=0;
-int r=n-1;
-mergeSort(arr,p,r);
-
-
-for(int i=0;i<8;i++){
-    cout<<arr[i]<<" ";
-}
-
-    return 0;
+    cout << endl;
+    mergeSort(arr, 0, n - 1);
+    cout << "After Sorting Array: " << endl;
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " "  ;
+    }
+    cout << endl;
+    return 0 ;
 }
