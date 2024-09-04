@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   
+}
+
+body{
+    background-color: rgb(8, 6, 6);
+    color: white;
+    text-align: center;
+}
+
+h1{
+    margin: 3rem;
+}
+p{
+    margin: 1rem;
+    font-size: 1.5rem;
+    
+}
+input{
+    height: 2rem;
+    font-size: 1rem;
+}
+
+button{
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+#weight-guide{
+    margin-top: 2rem;
+}
+
+#result{
+    font-size: 2rem;
+}
